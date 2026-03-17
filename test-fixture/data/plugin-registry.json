@@ -1,0 +1,11 @@
+{
+  "plugins": {
+    "SamplePlugin": {
+      "version": "1.0.0",
+      "url": "https://example.com/enhanced-battle",
+      "compatibility": [],
+      "incompatible": [],
+      "notes": "Test plugin for RMMZ Dev Tools"
+    }
+  }
+}

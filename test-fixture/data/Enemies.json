@@ -1,0 +1,15 @@
+[
+  null,
+  {
+    "id": 1,
+    "battlerName": "Bat",
+    "name": "Bat",
+    "note": "",
+    "params": [200, 50, 15, 10, 12, 8, 18, 10],
+    "exp": 5,
+    "gold": 10,
+    "dropItems": [],
+    "actions": [],
+    "traits": []
+  }
+]

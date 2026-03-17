@@ -1,0 +1,373 @@
+{
+  "name": "rmmz-dev-tools",
+  "displayName": "RMMZ Dev Tools",
+  "description": "Developer tools for RPG Maker MZ plugin development — annotation highlighting, IntelliSense, and validation",
+  "version": "1.0.0",
+  "publisher": "abyo-software",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/youichi-uda/rmmz-dev-tools"
+  },
+  "homepage": "https://github.com/youichi-uda/rmmz-dev-tools#readme",
+  "bugs": {
+    "url": "https://github.com/youichi-uda/rmmz-dev-tools/issues"
+  },
+  "galleryBanner": {
+    "color": "#1a3a6e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "rpg maker",
+    "rmmz",
+    "rpg maker mz",
+    "game development",
+    "plugin"
+  ],
+  "activationEvents": [
+    "workspaceContains:js/plugins.js",
+    "workspaceContains:js/plugins/",
+    "workspaceContains:data/System.json"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "rmmz.setupIntelliSense",
+        "title": "%command.setupIntelliSense%",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "rmmz.setupDebugger",
+        "title": "%command.setupDebugger%",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "rmmz.newPlugin",
+        "title": "%command.newPlugin%",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "rmmz.previewAnnotation",
+        "title": "%command.previewAnnotation%",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "rmmz.toggleSceneReload",
+        "title": "%command.toggleSceneReload%",
+        "icon": "$(zap)"
+      },
+      {
+        "command": "rmmz.showDependencyGraph",
+        "title": "%command.showDependencyGraph%",
+        "icon": "$(type-hierarchy)"
+      },
+      {
+        "command": "rmmz.refreshNoteTags",
+        "title": "%command.refreshNoteTags%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "rmmz.activateLicense",
+        "title": "%command.activateLicense%",
+        "icon": "$(key)"
+      },
+      {
+        "command": "rmmz.deactivateLicense",
+        "title": "%command.deactivateLicense%",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "rmmz.licenseStatus",
+        "title": "%command.licenseStatus%",
+        "icon": "$(star-full)"
+      },
+      {
+        "command": "rmmz.formatAnnotation",
+        "title": "%command.formatAnnotation%",
+        "icon": "$(list-ordered)"
+      },
+      {
+        "command": "rmmz.showConflicts",
+        "title": "%command.showConflicts%",
+        "icon": "$(warning)"
+      },
+      {
+        "command": "rmmz.checkAssets",
+        "title": "%command.checkAssets%",
+        "icon": "$(search)"
+      },
+      {
+        "command": "rmmz.refreshDatabase",
+        "title": "%command.refreshDatabase%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "rmmz.showConsole",
+        "title": "%command.showConsole%",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "rmmz.clearConsole",
+        "title": "%command.clearConsole%",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "rmmz.refreshGameState",
+        "title": "%command.refreshGameState%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "rmmz.editNoteTags",
+        "title": "%command.editNoteTags%",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "rmmz.showLivePreview",
+        "title": "%command.showLivePreview%",
+        "icon": "$(device-camera-video)"
+      },
+      {
+        "command": "rmmz.checkPluginUpdates",
+        "title": "%command.checkPluginUpdates%",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "rmmz.showPluginInfo",
+        "title": "%command.showPluginInfo%",
+        "icon": "$(info)"
+      },
+      {
+        "command": "rmmz.refreshHierarchy",
+        "title": "%command.refreshHierarchy%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "rmmz.searchHierarchy",
+        "title": "%command.searchHierarchy%",
+        "icon": "$(symbol-class)"
+      },
+      {
+        "command": "rmmz.toggleAutoRefreshGameState",
+        "title": "%command.toggleAutoRefreshGameState%",
+        "icon": "$(sync)"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/rmmz.code-snippets.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "rmmz",
+          "title": "%viewContainer.title%",
+          "icon": "images/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "rmmz": [
+        {
+          "id": "rmmzQuickActions",
+          "name": "%view.quickActions%",
+          "type": "webview",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "rmmzDatabaseBrowser",
+          "name": "%view.database%",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "rmmzClassHierarchy",
+          "name": "%view.classHierarchy%",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "rmmzNoteTagIndex",
+          "name": "%view.noteTags%",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "rmmzGameState",
+          "name": "%view.gameState%",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "rmmzGameState",
+        "contents": "%viewsWelcome.gameState%",
+        "when": "workspaceFolderCount > 0"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "rmmz.refreshNoteTags",
+          "when": "view == rmmzNoteTagIndex",
+          "group": "navigation"
+        },
+        {
+          "command": "rmmz.refreshDatabase",
+          "when": "view == rmmzDatabaseBrowser",
+          "group": "navigation"
+        },
+        {
+          "command": "rmmz.refreshGameState",
+          "when": "view == rmmzGameState",
+          "group": "navigation"
+        },
+        {
+          "command": "rmmz.refreshHierarchy",
+          "when": "view == rmmzClassHierarchy",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "rmmz.editorSubmenu",
+          "group": "rmmz@1",
+          "when": "resourceLangId == javascript || resourceLangId == typescript"
+        }
+      ],
+      "rmmz.editorSubmenu": [
+        {
+          "command": "rmmz.formatAnnotation",
+          "group": "1_annotation@1"
+        },
+        {
+          "command": "rmmz.previewAnnotation",
+          "group": "1_annotation@2"
+        },
+        {
+          "command": "rmmz.showConflicts",
+          "group": "2_analysis@1"
+        },
+        {
+          "command": "rmmz.checkAssets",
+          "group": "2_analysis@2"
+        },
+        {
+          "command": "rmmz.showPluginInfo",
+          "group": "2_analysis@3"
+        },
+        {
+          "command": "rmmz.showDependencyGraph",
+          "group": "3_views@1"
+        },
+        {
+          "command": "rmmz.editNoteTags",
+          "group": "3_views@2"
+        },
+        {
+          "command": "rmmz.newPlugin",
+          "group": "4_generate@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "submenu": "rmmz.explorerSubmenu",
+          "group": "rmmz@1",
+          "when": "resourceExtname == .js"
+        }
+      ],
+      "rmmz.explorerSubmenu": [
+        {
+          "command": "rmmz.previewAnnotation",
+          "group": "1_view@1"
+        },
+        {
+          "command": "rmmz.showPluginInfo",
+          "group": "1_view@2"
+        },
+        {
+          "command": "rmmz.showConflicts",
+          "group": "2_analysis@1"
+        },
+        {
+          "command": "rmmz.checkAssets",
+          "group": "2_analysis@2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "rmmz.editorSubmenu",
+        "label": "%submenu.editor%"
+      },
+      {
+        "id": "rmmz.explorerSubmenu",
+        "label": "%submenu.explorer%"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "source.rmmz-annotation",
+        "path": "./syntaxes/rmmz-annotation.tmLanguage.json",
+        "injectTo": [
+          "source.js",
+          "source.ts"
+        ]
+      }
+    ],
+    "languages": [
+      {
+        "id": "javascript",
+        "extensions": [
+          ".js"
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "RMMZ Dev Tools",
+      "properties": {
+        "rmmz.rmmzInstallPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%config.rmmzInstallPath.description%"
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[javascript]": {
+        "editor.quickSuggestions": {
+          "comments": "inline"
+        }
+      },
+      "[typescript]": {
+        "editor.quickSuggestions": {
+          "comments": "inline"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "package": "vsce package",
+    "lint": "eslint src/",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.1.0"
+  }
+}

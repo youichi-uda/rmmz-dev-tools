@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "RMMZ Annotation",
+  "scopeName": "source.rmmz-annotation",
+  "injectionSelector": "L:comment.block",
+  "patterns": [
+    { "include": "#annotation-tags" }
+  ],
+  "repository": {
+    "annotation-tags": {
+      "patterns": [
+        { "include": "#scope-tags" },
+        { "include": "#type-tag" },
+        { "include": "#dependency-tags" },
+        { "include": "#metadata-tags" },
+        { "include": "#param-sub-tags" },
+        { "include": "#separator" }
+      ]
+    },
+    "scope-tags": {
+      "match": "(@)(param|command|arg)\\b\\s*(\\S*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.rmmz" },
+        "2": { "name": "keyword.control.rmmz" },
+        "3": { "name": "entity.name.function.rmmz" }
+      }
+    },
+    "type-tag": {
+      "match": "(@)(type)\\b\\s*(\\S*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.rmmz" },
+        "2": { "name": "keyword.other.type.rmmz" },
+        "3": { "name": "support.type.rmmz" }
+      }
+    },
+    "dependency-tags": {
+      "match": "(@)(base|orderAfter|orderBefore|requiredAssets)\\b\\s*(.*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.rmmz" },
+        "2": { "name": "keyword.other.dependency.rmmz" },
+        "3": { "name": "string.unquoted.dependency.rmmz" }
+      }
+    },
+    "metadata-tags": {
+      "match": "(@)(target|plugindesc|author|help|url|noteParam|noteDir|noteType|noteData)\\b",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.rmmz" },
+        "2": { "name": "keyword.other.metadata.rmmz" }
+      }
+    },
+    "param-sub-tags": {
+      "match": "(@)(text|desc|default|parent|min|max|decimals|dir|require|on|off|option|value)\\b",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.rmmz" },
+        "2": { "name": "storage.type.annotation.rmmz" }
+      }
+    },
+    "separator": {
+      "match": "@\\s*-{3,}",
+      "name": "comment.line.separator.rmmz"
+    }
+  }
+}

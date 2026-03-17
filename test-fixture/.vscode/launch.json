@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "nwjs",
+      "request": "launch",
+      "name": "RMMZ Testplay (Debug)",
+      "runtimeExecutable": "${workspaceFolder}/Game.exe",
+      "nwjsVersion": "any",
+      "webRoot": "${workspaceFolder}",
+      "port": 9222,
+      "runtimeArgs": [
+        "--remote-debugging-port=9222"
+      ]
+    },
+    {
+      "type": "nwjs",
+      "request": "attach",
+      "name": "Attach to RMMZ Testplay",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}

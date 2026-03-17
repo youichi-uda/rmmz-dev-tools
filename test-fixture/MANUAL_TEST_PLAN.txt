@@ -1,0 +1,147 @@
+================================================================================
+  RMMZ Dev Tools -- 手動テスト計画
+================================================================================
+
+前提条件:
+  - RMMZ Dev Tools 拡張が有効（F5 デバッグ or インストール済み）
+  - test-fixture/ をワークスペースとして開く
+  - デバッグコンソールに "RMMZ Dev Tools activated" が出ること
+
+================================================================================
+  A~H: テストファイルで実施（js/plugins/ManualTest_*.js）
+================================================================================
+
+  A. 補完               → ManualTest_Completion.js        (7項目)
+  B. バリデーション     → ManualTest_Validation.js        (9項目)
+  C. ホバー             → ManualTest_Hover.js             (15項目)
+  D. フォーマッター     → ManualTest_Formatter.js         (4項目)
+  E. カラーピッカー     → ManualTest_ColorRename.js       (4項目)
+  F. パラメータリネーム → ManualTest_ColorRename.js       (2項目)
+  G. 競合検出/CodeLens  → ManualTest_ConflictCodeLens.js  (4項目)
+  H. スニペット         → ManualTest_Snippets.js          (8項目)
+
+  ※ 各ファイル内にテスト手順・期待結果・PASS/FAILの記入欄あり
+
+================================================================================
+  I. コマンドパレット（24項目）
+================================================================================
+
+  #   コマンド                              確認内容                                    [ ]
+  --- ------------------------------------- ------------------------------------------- ---
+  I1  RMMZ: Setup IntelliSense              jsconfig.json が生成される                  [ ]
+  I2  RMMZ: Setup Debugger (NW.js)          .vscode/launch.json が生成される             [ ]
+  I3  RMMZ: New Plugin                      対話プロンプト → .js ファイル生成            [ ]
+  I4  RMMZ: Preview Annotation              Webview でプラグイン情報が表示される         [ ]
+  I5  RMMZ: Show Plugin Dependency Graph    Webview でノード・エッジが表示される         [ ]
+  I6  RMMZ: Show Plugin Conflicts           出力チャンネルに競合レポート                 [ ]
+  I7  RMMZ: Check Asset References          出力チャンネルに不足アセット一覧             [ ]
+  I8  RMMZ: Format Annotation Block         カーソル位置のブロックが整形される           [ ]
+  I9  RMMZ: Toggle Quick Scene Reload       ステータスバーが Off/Waiting を切替          [ ]
+  I10 RMMZ: Show Testplay Console           RMMZ Console 出力チャンネルが開く            [ ]
+  I11 RMMZ: Clear Testplay Console          出力チャンネルがクリアされる                 [ ]
+  I12 RMMZ: Edit Note Tags                  Webview でタグ編集画面が開く                 [ ]
+  I13 RMMZ: Show Live Game Preview          Webview でスクリーンショット表示             [ ]
+  I14 RMMZ: Check Plugin Updates            出力チャンネルにバージョン比較               [ ]
+  I15 RMMZ: Show Plugin Info                出力チャンネルにプラグイン情報               [ ]
+  I16 RMMZ: Search Class Hierarchy          QuickPick でクラス検索                       [ ]
+  I17 RMMZ: License Status                  Free/Pro 状態メッセージ                      [ ]
+  I18 RMMZ: Activate Pro License            ライセンスキー入力ボックス                   [ ]
+  I19 RMMZ: Deactivate Pro License          ライセンスクリア + ステータスバー更新        [ ]
+  I20 RMMZ: Refresh Note Tag Index          サイドバーツリー更新                         [ ]
+  I21 RMMZ: Refresh Database Browser        サイドバーツリー更新                         [ ]
+  I22 RMMZ: Refresh Game State              サイドバーツリー更新                         [ ]
+  I23 RMMZ: Refresh Class Hierarchy         サイドバーツリー更新                         [ ]
+  I24 RMMZ: Toggle Auto Refresh Game State  2秒自動更新の切替                            [ ]
+
+================================================================================
+  J. サイドバービュー（4項目）
+================================================================================
+
+  #   ビュー名                確認内容                                              [ ]
+  --- ----------------------- ----------------------------------------------------- ---
+  J1  RMMZ Note Tags          BattleSpeed, CustomTag, Consumable, HealHP が表示     [ ]
+                               孤立タグセクションも確認
+  J2  RMMZ Database           Actors > [1] Harold が表示される                      [ ]
+                               Items > [1] Potion が表示される
+  J3  RMMZ Game State         ゲーム未実行時 "(Not connected...)" が表示            [ ]
+  J4  RMMZ Class Hierarchy    カテゴリ分類でクラスが表示される                      [ ]
+                               展開するとメソッド一覧、クリックで定義にジャンプ
+
+================================================================================
+  K. Webview 機能（7項目）
+================================================================================
+
+  #   テスト                          確認内容                                      [ ]
+  --- ------------------------------- --------------------------------------------- ---
+  K1  Annotation Preview 内容         SamplePlugin.js で実行                        [ ]
+                                       → ヘッダー、パラメータテーブル、コマンド、ヘルプ
+  K2  Annotation Preview ライブ更新   @plugindesc を編集 → プレビューがリアルタイム更新 [ ]
+  K3  Annotation Preview エディタ切替 別ファイルに切替 → プレビューも追従           [ ]
+  K4  Dependency Graph ノード         全プラグインのノードが表示される               [ ]
+  K5  Dependency Graph 問題検出       @base の未解決依存が MISSING 表示              [ ]
+  K6  Note Tag Editor 読み込み        Actors #1 Harold のタグが表示される            [ ]
+  K7  Note Tag Editor 保存            値を編集 → Save → JSONが更新される            [ ]
+
+================================================================================
+  L. テストプレイ機能（ゲーム実行が必要 / port 9222）
+================================================================================
+
+  #   テスト                    確認内容                                            [ ]
+  --- ------------------------- --------------------------------------------------- ---
+  L1  Quick Scene Reload        有効化 → プラグイン保存 → シーンリロード            [ ]
+  L2  Testplay Console          console.log がVSCode出力チャンネルに表示            [ ]
+  L3  Live Game Preview         Webview にスクリーンショット + FPS                  [ ]
+  L4  Game State Inspector      Party, Switches, Variables 等がツリー表示           [ ]
+
+================================================================================
+  M. セットアップ機能（6項目）
+================================================================================
+
+  #   テスト                        確認内容                                        [ ]
+  --- ----------------------------- ----------------------------------------------- ---
+  M1  jsconfig.json 生成            削除 → Setup IntelliSense → 作成される          [ ]
+  M2  jsconfig.json 既存時          再実行 → "already exists" メッセージ            [ ]
+  M3  launch.json 生成              削除 → Setup Debugger → 作成される              [ ]
+  M4  launch.json 既存時            再実行 → "already exists" メッセージ            [ ]
+  M5  package.json 自動修復         chromium-args 削除 → 自動復元                   [ ]
+  M6  IntelliSense 初回プロンプト   jsconfig.json 削除 → リロード → 通知表示        [ ]
+
+================================================================================
+  N. プラグインレジストリ（2項目）
+================================================================================
+
+  #   テスト                    確認内容                                            [ ]
+  --- ------------------------- --------------------------------------------------- ---
+  N1  Check Plugin Updates      SamplePlugin v1.0.0 [OK]、他は "not in registry"   [ ]
+  N2  Show Plugin Info          SamplePlugin の説明・バージョン・レジストリ情報     [ ]
+
+================================================================================
+  O. ライセンス管理（4項目）
+================================================================================
+
+  #   テスト                    確認内容                                            [ ]
+  --- ------------------------- --------------------------------------------------- ---
+  O1  License Status (Free)     "Free edition" メッセージ + Enter License Key       [ ]
+  O2  ステータスバー (Free)     右下に "RMMZ Free" 表示                             [ ]
+  O3  無効キーで Activate       "Invalid license key." エラー                       [ ]
+  O4  Deactivate                "Pro license deactivated." メッセージ               [ ]
+
+================================================================================
+  P. シンタックスハイライト（目視 / 6項目）
+================================================================================
+
+  #   確認対象                          期待される色分け                            [ ]
+  --- --------------------------------- ------------------------------------------- ---
+  P1  @param, @command, @arg            キーワード色（制御構文）                    [ ]
+  P2  @type + 値                        @type がキーワード、値が型色               [ ]
+  P3  @base, @orderAfter, @orderBefore  依存関係タグ色                              [ ]
+  P4  @plugindesc, @author, @help       メタデータタグ色                            [ ]
+  P5  @text, @desc, @default 等         サブタグ色                                  [ ]
+  P6  @param 後のパラメータ名           識別子色                                    [ ]
+
+================================================================================
+  合計: 約90項目
+
+  A~H = テストファイル内で完結（手順・期待結果はファイル内コメント参照）
+  I~P = この一覧に沿って実施
+================================================================================

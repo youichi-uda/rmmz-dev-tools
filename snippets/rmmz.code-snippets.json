@@ -1,0 +1,176 @@
+{
+  "RMMZ: Alias Pattern": {
+    "scope": "javascript",
+    "prefix": "rmmz-alias",
+    "description": "Alias an existing prototype method (safe override pattern)",
+    "body": [
+      "const _${1:Class}_${2:method} = ${1:Class}.prototype.${2:method};",
+      "${1:Class}.prototype.${2:method} = function(${3}) {",
+      "\t_${1:Class}_${2:method}.call(this${4:});",
+      "\t$0",
+      "};"
+    ]
+  },
+  "RMMZ: Register Plugin Command": {
+    "scope": "javascript",
+    "prefix": "rmmz-command",
+    "description": "Register a plugin command with PluginManager",
+    "body": [
+      "PluginManager.registerCommand(PLUGIN_NAME, \"${1:commandName}\", (args) => {",
+      "\t$0",
+      "});"
+    ]
+  },
+  "RMMZ: Parameter Parsing": {
+    "scope": "javascript",
+    "prefix": "rmmz-param",
+    "description": "Parse plugin parameters from the annotation block",
+    "body": [
+      "const param = {",
+      "\t${1:key}: parameters[\"${1:key}\"] || \"${2:default}\",$0",
+      "};"
+    ]
+  },
+  "RMMZ: Full Plugin Scaffold": {
+    "scope": "javascript",
+    "prefix": "rmmz-plugin",
+    "description": "Complete plugin template with annotation block, parameters, and command",
+    "body": [
+      "/*:",
+      " * @target MZ",
+      " * @plugindesc ${1:Plugin description}",
+      " * @author ${2:Author}",
+      " * @url ${3:https://}",
+      " *",
+      " * @help",
+      " * ${4:Help text for this plugin.}",
+      " *",
+      " * @param ${5:paramName}",
+      " * @text ${6:Parameter Label}",
+      " * @type ${7:string}",
+      " * @default ${8:}",
+      " * @desc ${9:Parameter description}",
+      " *",
+      " * @command ${10:commandName}",
+      " * @text ${11:Command Label}",
+      " * @desc ${12:Command description}",
+      " *",
+      " * @arg ${13:argName}",
+      " * @text ${14:Argument Label}",
+      " * @type ${15:string}",
+      " * @default ${16:}",
+      " * @desc ${17:Argument description}",
+      " */",
+      "",
+      "(() => {",
+      "\t\"use strict\";",
+      "",
+      "\tconst PLUGIN_NAME = \"${18:${TM_FILENAME_BASE}}\";",
+      "\tconst parameters = PluginManager.parameters(PLUGIN_NAME);",
+      "",
+      "\tconst param = {",
+      "\t\t${5:paramName}: parameters[\"${5:paramName}\"] || \"${8:}\",",
+      "\t};",
+      "",
+      "\tPluginManager.registerCommand(PLUGIN_NAME, \"${10:commandName}\", (args) => {",
+      "\t\t$0",
+      "\t});",
+      "})();"
+    ]
+  },
+  "RMMZ: Scene Class": {
+    "scope": "javascript",
+    "prefix": "rmmz-scene",
+    "description": "Scene class template extending Scene_Base",
+    "body": [
+      "function Scene_${1:Custom}() {",
+      "\tthis.initialize(...arguments);",
+      "}",
+      "",
+      "Scene_${1:Custom}.prototype = Object.create(Scene_Base.prototype);",
+      "Scene_${1:Custom}.prototype.constructor = Scene_${1:Custom};",
+      "",
+      "Scene_${1:Custom}.prototype.initialize = function() {",
+      "\tScene_Base.prototype.initialize.call(this);",
+      "\t$0",
+      "};",
+      "",
+      "Scene_${1:Custom}.prototype.create = function() {",
+      "\tScene_Base.prototype.create.call(this);",
+      "};",
+      "",
+      "Scene_${1:Custom}.prototype.start = function() {",
+      "\tScene_Base.prototype.start.call(this);",
+      "};",
+      "",
+      "Scene_${1:Custom}.prototype.update = function() {",
+      "\tScene_Base.prototype.update.call(this);",
+      "};"
+    ]
+  },
+  "RMMZ: Window Class": {
+    "scope": "javascript",
+    "prefix": "rmmz-window",
+    "description": "Window class template extending Window_Base",
+    "body": [
+      "function Window_${1:Custom}(rect) {",
+      "\tthis.initialize(rect);",
+      "}",
+      "",
+      "Window_${1:Custom}.prototype = Object.create(Window_Base.prototype);",
+      "Window_${1:Custom}.prototype.constructor = Window_${1:Custom};",
+      "",
+      "Window_${1:Custom}.prototype.initialize = function(rect) {",
+      "\tWindow_Base.prototype.initialize.call(this, rect);",
+      "\t$0",
+      "};",
+      "",
+      "Window_${1:Custom}.prototype.update = function() {",
+      "\tWindow_Base.prototype.update.call(this);",
+      "};",
+      "",
+      "Window_${1:Custom}.prototype.refresh = function() {",
+      "\tthis.contents.clear();",
+      "\tthis.drawAllItems();",
+      "};"
+    ]
+  },
+  "RMMZ: Sprite Class": {
+    "scope": "javascript",
+    "prefix": "rmmz-sprite",
+    "description": "Sprite class template extending Sprite",
+    "body": [
+      "function Sprite_${1:Custom}() {",
+      "\tthis.initialize(...arguments);",
+      "}",
+      "",
+      "Sprite_${1:Custom}.prototype = Object.create(Sprite.prototype);",
+      "Sprite_${1:Custom}.prototype.constructor = Sprite_${1:Custom};",
+      "",
+      "Sprite_${1:Custom}.prototype.initialize = function() {",
+      "\tSprite.prototype.initialize.call(this);",
+      "\t$0",
+      "};",
+      "",
+      "Sprite_${1:Custom}.prototype.update = function() {",
+      "\tSprite.prototype.update.call(this);",
+      "};",
+      "",
+      "Sprite_${1:Custom}.prototype.destroy = function(options) {",
+      "\tSprite.prototype.destroy.call(this, options);",
+      "};"
+    ]
+  },
+  "RMMZ: IIFE Wrapper": {
+    "scope": "javascript",
+    "prefix": "rmmz-iife",
+    "description": "Immediately Invoked Function Expression wrapper",
+    "body": [
+      "(() => {",
+      "\t\"use strict\";",
+      "",
+      "\t$0",
+      "})();"
+    ]
+  }
+}

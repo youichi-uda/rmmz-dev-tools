@@ -1,0 +1,23 @@
+[
+  null,
+  {
+    "id": 1,
+    "animationId": 0,
+    "consumable": true,
+    "damage": {"critical": false, "elementId": 0, "formula": "0", "type": 0, "variance": 20},
+    "description": "Restores 500 HP to one ally.",
+    "effects": [],
+    "hitType": 0,
+    "iconIndex": 176,
+    "itypeId": 1,
+    "name": "Potion",
+    "note": "<Consumable>\n<HealHP:500>",
+    "occasion": 0,
+    "price": 50,
+    "repeats": 1,
+    "scope": 7,
+    "speed": 0,
+    "successRate": 100,
+    "tpGain": 0
+  }
+]

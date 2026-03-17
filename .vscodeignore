@@ -1,0 +1,9 @@
+src/**
+.gitignore
+tsconfig.json
+node_modules/**
+.vscode/**
+test-fixture/**
+docs/**
+**/*.map
+**/*.svg
