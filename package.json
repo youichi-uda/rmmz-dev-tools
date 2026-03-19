@@ -35,9 +35,7 @@
     "plugin"
   ],
   "activationEvents": [
-    "workspaceContains:js/plugins.js",
-    "workspaceContains:js/plugins/",
-    "workspaceContains:data/System.json"
+    "workspaceContains:js/rmmz_core.js"
   ],
   "main": "./out/extension.js",
   "contributes": {
