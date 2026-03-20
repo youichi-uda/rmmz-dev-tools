@@ -5,6 +5,9 @@ import { t } from '../i18n';
 
 const CHROMIUM_ARGS = '--remote-debugging-port=9222';
 
+/** Suppress watcher restore after intentional removal (prepareRelease). */
+let suppressRestoreUntil = 0;
+
 /**
  * Resolves the nw.exe path from the configured RMMZ install path.
  * If not configured, prompts the user to select the folder.
@@ -197,6 +200,7 @@ export async function prepareRelease(workspaceFolder: vscode.WorkspaceFolder): P
       delete pkg['chromium-args'];
     }
 
+    suppressRestoreUntil = Date.now() + 3000; // suppress watcher for 3s
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2), 'utf-8');
     vscode.window.showInformationMessage(t('release.done'));
   } catch {
@@ -241,6 +245,7 @@ export function watchPackageJson(
     // Debounce — MZ may write multiple times
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
+      if (Date.now() < suppressRestoreUntil) return;
       try {
         const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
         const currentArgs: string = pkg['chromium-args'] || '';
