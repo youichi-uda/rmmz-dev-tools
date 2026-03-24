@@ -35,7 +35,7 @@ export class RmmzHoverProvider implements vscode.HoverProvider {
       const typeStart = lineText.indexOf(typeValue, lineText.indexOf('@type'));
       const typeEnd = typeStart + typeValue.length;
       if (position.character >= typeStart && position.character <= typeEnd) {
-        const baseType = typeValue.replace(/\[\]$/, '');
+        const baseType = typeValue.replace(/(\[\])+$/, '');
         const description = TYPE_DESCRIPTIONS[baseType];
         if (description) {
           const isArray = typeValue.endsWith('[]');

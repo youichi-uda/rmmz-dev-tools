@@ -114,7 +114,7 @@ function validateBlock(
     if (tag === 'type') {
       const typeValue = lineText.match(/@type\s+(.+)/)?.[1]?.trim();
       if (typeValue) {
-        currentType = typeValue.replace(/\[\]$/, ''); // strip array suffix
+        currentType = typeValue.replace(/(\[\])+$/, ''); // strip array suffix (including multi-dimensional)
         // Validate type value
         if (!isValidType(currentType)) {
           const typeStart = lineText.indexOf(typeValue, tagStart);

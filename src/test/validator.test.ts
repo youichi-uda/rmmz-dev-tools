@@ -77,6 +77,17 @@ describe('validateDocument', () => {
     expect(typeWarns).toHaveLength(0);
   });
 
+  it('accepts multi-dimensional array types (number[][])', () => {
+    const d = diags(`/*:
+ * @plugindesc Test
+ * @target MZ
+ * @param foo
+ * @type number[][]
+ */`);
+    const typeWarns = d.filter(x => x.message.includes('Unknown @type'));
+    expect(typeWarns).toHaveLength(0);
+  });
+
   it('accepts UI picker types (icon, color, map, location)', () => {
     for (const type of ['icon', 'color', 'map', 'location']) {
       const d = diags(`/*:
