@@ -9,6 +9,7 @@ const BUILD_DEBOUNCE_MS = 500;
 
 let enabled = false;
 let fileWatcher: vscode.FileSystemWatcher | null = null;
+let fileWatchers: vscode.FileSystemWatcher[] = [];
 let statusBarItem: vscode.StatusBarItem | null = null;
 let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 let diagnosticCollection: vscode.DiagnosticCollection | null = null;
@@ -157,8 +158,11 @@ function startWatching(): void {
   const folders = vscode.workspace.workspaceFolders;
   if (!folders) return;
 
-  fileWatcher = vscode.workspace.createFileSystemWatcher(
+  const pluginWatcher = vscode.workspace.createFileSystemWatcher(
     new vscode.RelativePattern(folders[0], 'ts/plugins/**/*.ts')
+  );
+  const typingsWatcher = vscode.workspace.createFileSystemWatcher(
+    new vscode.RelativePattern(folders[0], 'ts/typings/**/*.d.ts')
   );
 
   const onFileSaved = () => {
@@ -181,16 +185,23 @@ function startWatching(): void {
     onFileSaved();
   };
 
-  fileWatcher.onDidChange(onFileSaved);
-  fileWatcher.onDidCreate(onFileSaved);
-  fileWatcher.onDidDelete(onFileDeleted);
+  pluginWatcher.onDidChange(onFileSaved);
+  pluginWatcher.onDidCreate(onFileSaved);
+  pluginWatcher.onDidDelete(onFileDeleted);
+  typingsWatcher.onDidChange(onFileSaved);
+  typingsWatcher.onDidCreate(onFileSaved);
+  typingsWatcher.onDidDelete(onFileSaved);
+
+  fileWatcher = pluginWatcher;
+  fileWatchers = [pluginWatcher, typingsWatcher];
 }
 
 function stopWatching(): void {
-  if (fileWatcher) {
-    fileWatcher.dispose();
-    fileWatcher = null;
+  for (const w of fileWatchers) {
+    w.dispose();
   }
+  fileWatcher = null;
+  fileWatchers = [];
   if (diagnosticCollection) {
     diagnosticCollection.clear();
   }
