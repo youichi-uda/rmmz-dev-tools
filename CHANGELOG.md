@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.3] - 2026-03-24
+
+### Fixed
+
+- Add missing `@type` values: `icon`, `color`, `map`, `location` (#1)
+- Support multi-dimensional array types like `number[][]` (#2)
+- Fix `Game_Party.maxItems` type definition — parameter is now optional (#3)
+- Fix RMMZ `Window` class conflicting with DOM `Window` interface (#4)
+- Trigger auto-build on `*.d.ts` file saves in `ts/typings/` (#5)
+
 ## [0.1.0] - 2026-03-17
 
 ### Added
