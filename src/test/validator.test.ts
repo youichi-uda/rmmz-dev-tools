@@ -77,6 +77,19 @@ describe('validateDocument', () => {
     expect(typeWarns).toHaveLength(0);
   });
 
+  it('accepts UI picker types (icon, color, map, location)', () => {
+    for (const type of ['icon', 'color', 'map', 'location']) {
+      const d = diags(`/*:
+ * @plugindesc Test
+ * @target MZ
+ * @param foo
+ * @type ${type}
+ */`);
+      const typeWarns = d.filter(x => x.message.includes('Unknown @type'));
+      expect(typeWarns, `@type ${type} should be valid`).toHaveLength(0);
+    }
+  });
+
   // ---- Scope validation ----
 
   it('warns when @min is used at top level (outside @param)', () => {

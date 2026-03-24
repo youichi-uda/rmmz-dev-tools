@@ -7,6 +7,7 @@ import {
   TYPE_VALUES,
   TYPE_VALUES_BASIC,
   TYPE_VALUES_DATABASE,
+  TYPE_VALUES_UI,
   TYPE_DESCRIPTIONS,
   TAG_DESCRIPTIONS,
   TYPE_SPECIFIC_TAGS,
@@ -71,12 +72,15 @@ describe('tag definitions', () => {
     expect(set.size).toBe(TYPE_VALUES.length);
   });
 
-  it('TYPE_VALUES is the union of basic and database types', () => {
-    expect(TYPE_VALUES).toHaveLength(TYPE_VALUES_BASIC.length + TYPE_VALUES_DATABASE.length);
+  it('TYPE_VALUES is the union of basic, database, and UI types', () => {
+    expect(TYPE_VALUES).toHaveLength(TYPE_VALUES_BASIC.length + TYPE_VALUES_DATABASE.length + TYPE_VALUES_UI.length);
     for (const v of TYPE_VALUES_BASIC) {
       expect(TYPE_VALUES).toContain(v);
     }
     for (const v of TYPE_VALUES_DATABASE) {
+      expect(TYPE_VALUES).toContain(v);
+    }
+    for (const v of TYPE_VALUES_UI) {
       expect(TYPE_VALUES).toContain(v);
     }
   });
