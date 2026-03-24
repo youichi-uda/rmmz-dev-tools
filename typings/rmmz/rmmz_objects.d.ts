@@ -1178,7 +1178,7 @@ declare class Game_Party extends Game_Unit {
     steps(): number;
     increaseSteps(): void;
     numItems(item: RPG_Item | RPG_Weapon | RPG_Armor): number;
-    maxItems(item: RPG_Item | RPG_Weapon | RPG_Armor): number;
+    maxItems(item?: RPG_Item | RPG_Weapon | RPG_Armor): number;
     hasMaxItems(item: RPG_Item | RPG_Weapon | RPG_Armor): boolean;
     hasItem(item: RPG_Item | RPG_Weapon | RPG_Armor, includeEquip?: boolean): boolean;
     isAnyMemberEquipped(item: RPG_Weapon | RPG_Armor): boolean;
