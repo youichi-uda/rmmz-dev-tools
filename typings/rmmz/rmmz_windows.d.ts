@@ -38,7 +38,7 @@ interface CommandItem {
 // The superclass of all windows within the game.
 // ---------------------------------------------------------------------------
 
-declare class Window_Base extends Window {
+declare class Window_Base extends RMMZ_Window {
     constructor(rect: Rectangle);
     initialize(rect: Rectangle): void;
 
