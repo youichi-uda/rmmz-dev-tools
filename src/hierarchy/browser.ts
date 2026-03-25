@@ -154,11 +154,16 @@ class ClassScanner {
       }
 
       // Constructor pattern: function Foo() { this.initialize.apply(this, arguments); }
-      const ctorMatch = line.match(/^\s*function\s+(\w+)\s*\(\)\s*\{\s*this\.initialize\.apply\s*\(/);
+      // Supports both single-line and multi-line (MV core files split across two lines)
+      const ctorMatch = line.match(/^\s*function\s+(\w+)\s*\(\)\s*\{/);
       if (ctorMatch) {
-        const name = ctorMatch[1];
-        this.ensureClass(name, filePath, source, i + 1);
-        continue;
+        // Check if this.initialize.apply is on this line or the next
+        const nextLine = i + 1 < lines.length ? lines[i + 1] : '';
+        if (/this\.initialize\.apply\s*\(/.test(line) || /this\.initialize\.apply\s*\(/.test(nextLine)) {
+          const name = ctorMatch[1];
+          this.ensureClass(name, filePath, source, i + 1);
+          continue;
+        }
       }
 
       // Prototype chain: Foo.prototype = Object.create(Bar.prototype)

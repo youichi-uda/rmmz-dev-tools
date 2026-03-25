@@ -356,109 +356,113 @@ declare namespace SoundManager {
 // The static class that handles terms and messages.
 // ---------------------------------------------------------------------------
 
-declare namespace TextManager {
-  function basic(basicId: number): string;
-  function param(paramId: number): string;
-  function command(commandId: number): string;
-  function message(messageId: string): string;
-  function getter(method: string, param: number | string): PropertyDescriptor;
+interface TextManager {
+  basic(basicId: number): string;
+  param(paramId: number): string;
+  command(commandId: number): string;
+  message(messageId: string): string;
+  getter(method: string, param: number | string): PropertyDescriptor;
 
   // Currency
-  const currencyUnit: string;
+  readonly currencyUnit: string;
 
   // Basic terms (from $dataSystem.terms.basic)
-  const level: string;
-  const levelA: string;
-  const hp: string;
-  const hpA: string;
-  const mp: string;
-  const mpA: string;
-  const tp: string;
-  const tpA: string;
-  const exp: string;
-  const expA: string;
+  readonly level: string;
+  readonly levelA: string;
+  readonly hp: string;
+  readonly hpA: string;
+  readonly mp: string;
+  readonly mpA: string;
+  readonly tp: string;
+  readonly tpA: string;
+  readonly exp: string;
+  readonly expA: string;
 
   // Command terms (from $dataSystem.terms.commands)
-  const fight: string;
-  const escape: string;
-  const attack: string;
-  const guard: string;
-  const item: string;
-  const skill: string;
-  const equip: string;
-  const status: string;
-  const formation: string;
-  const save: string;
-  const gameEnd: string;
-  const options: string;
-  const weapon: string;
-  const armor: string;
-  const keyItem: string;
-  const equip2: string;
-  const optimize: string;
-  const clear: string;
-  const newGame: string;
-  const continue_: string;
-  const toTitle: string;
-  const cancel: string;
-  const buy: string;
-  const sell: string;
+  readonly fight: string;
+  readonly escape: string;
+  readonly attack: string;
+  readonly guard: string;
+  readonly item: string;
+  readonly skill: string;
+  readonly equip: string;
+  readonly status: string;
+  readonly formation: string;
+  readonly save: string;
+  readonly gameEnd: string;
+  readonly options: string;
+  readonly weapon: string;
+  readonly armor: string;
+  readonly keyItem: string;
+  readonly equip2: string;
+  readonly optimize: string;
+  readonly clear: string;
+  readonly newGame: string;
+  readonly continue_: string;
+  readonly toTitle: string;
+  readonly cancel: string;
+  readonly buy: string;
+  readonly sell: string;
 
   // Message terms (from $dataSystem.terms.messages)
-  const alwaysDash: string;
-  const commandRemember: string;
-  const touchUI: string;
-  const bgmVolume: string;
-  const bgsVolume: string;
-  const meVolume: string;
-  const seVolume: string;
-  const possession: string;
-  const expTotal: string;
-  const expNext: string;
-  const saveMessage: string;
-  const loadMessage: string;
-  const file: string;
-  const autosave: string;
-  const partyName: string;
-  const emerge: string;
-  const preemptive: string;
-  const surprise: string;
-  const escapeStart: string;
-  const escapeFailure: string;
-  const victory: string;
-  const defeat: string;
-  const obtainExp: string;
-  const obtainGold: string;
-  const obtainItem: string;
-  const levelUp: string;
-  const obtainSkill: string;
-  const useItem: string;
-  const criticalToEnemy: string;
-  const criticalToActor: string;
-  const actorDamage: string;
-  const actorRecovery: string;
-  const actorGain: string;
-  const actorLoss: string;
-  const actorDrain: string;
-  const actorNoDamage: string;
-  const actorNoHit: string;
-  const enemyDamage: string;
-  const enemyRecovery: string;
-  const enemyGain: string;
-  const enemyLoss: string;
-  const enemyDrain: string;
-  const enemyNoDamage: string;
-  const enemyNoHit: string;
-  const evasion: string;
-  const magicEvasion: string;
-  const magicReflection: string;
-  const counterAttack: string;
-  const substitute: string;
-  const buffAdd: string;
-  const debuffAdd: string;
-  const buffRemove: string;
-  const actionFailure: string;
+  readonly alwaysDash: string;
+  readonly commandRemember: string;
+  readonly touchUI: string;
+  readonly bgmVolume: string;
+  readonly bgsVolume: string;
+  readonly meVolume: string;
+  readonly seVolume: string;
+  readonly possession: string;
+  readonly expTotal: string;
+  readonly expNext: string;
+  readonly saveMessage: string;
+  readonly loadMessage: string;
+  readonly file: string;
+  readonly autosave: string;
+  readonly partyName: string;
+  readonly emerge: string;
+  readonly preemptive: string;
+  readonly surprise: string;
+  readonly escapeStart: string;
+  readonly escapeFailure: string;
+  readonly victory: string;
+  readonly defeat: string;
+  readonly obtainExp: string;
+  readonly obtainGold: string;
+  readonly obtainItem: string;
+  readonly levelUp: string;
+  readonly obtainSkill: string;
+  readonly useItem: string;
+  readonly criticalToEnemy: string;
+  readonly criticalToActor: string;
+  readonly actorDamage: string;
+  readonly actorRecovery: string;
+  readonly actorGain: string;
+  readonly actorLoss: string;
+  readonly actorDrain: string;
+  readonly actorNoDamage: string;
+  readonly actorNoHit: string;
+  readonly enemyDamage: string;
+  readonly enemyRecovery: string;
+  readonly enemyGain: string;
+  readonly enemyLoss: string;
+  readonly enemyDrain: string;
+  readonly enemyNoDamage: string;
+  readonly enemyNoHit: string;
+  readonly evasion: string;
+  readonly magicEvasion: string;
+  readonly magicReflection: string;
+  readonly counterAttack: string;
+  readonly substitute: string;
+  readonly buffAdd: string;
+  readonly debuffAdd: string;
+  readonly buffRemove: string;
+  readonly actionFailure: string;
+
+  [key: string]: any;
 }
+
+declare const TextManager: TextManager;
 
 // ---------------------------------------------------------------------------
 // ColorManager

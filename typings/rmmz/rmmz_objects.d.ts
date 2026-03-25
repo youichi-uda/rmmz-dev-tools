@@ -410,7 +410,7 @@ declare class Game_Action {
     targetsForAlive(unit: Game_Unit): Game_Battler[];
     targetsForDeadAndAlive(unit: Game_Unit): Game_Battler[];
     evaluate(): number;
-    itemTargetCandidates(): Game_Battler[];
+    itemTargetCandidates(): (Game_Actor | Game_Enemy)[];
     evaluateWithTarget(target: Game_Battler): number;
     testApply(target: Game_Battler): boolean;
     testLifeAndDeath(target: Game_Battler): boolean;
@@ -502,6 +502,10 @@ declare class Game_ActionResult {
 
 // ─── Game_BattlerBase ────────────────────────────────────────────────────────
 // The superclass of Game_Battler. It mainly contains parameters calculation.
+
+interface Game_BattlerBase {
+    [key: string]: any;
+}
 
 declare class Game_BattlerBase {
     constructor();

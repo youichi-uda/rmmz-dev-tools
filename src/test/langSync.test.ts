@@ -68,7 +68,7 @@ function extractStructure(lines: string[], block: AnnotationBlock): BlockStructu
 
   for (let i = block.startLine; i <= block.endLine; i++) {
     const lineText = lines[i];
-    const tagMatch = lineText.match(/^\s*\*?\s*@(\w+)\s*(.*)?$/);
+    const tagMatch = lineText.match(/^\s*\*?\s*@(\w+)\s*(.*?)?\s*$/);
     if (!tagMatch) continue;
     const tag = tagMatch[1];
     const rest = (tagMatch[2] ?? '').trim();

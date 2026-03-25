@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.1.4] - 2026-03-25
+
+### Fixed
+
+- Fix `Game_Action.itemTargetCandidates` return type to `(Game_Actor | Game_Enemy)[]` (#10)
+- Add `Sprite.dy` and `Sprite.ry` properties used by `Sprite_Damage` (#9)
+- Fix `RMMZ_Window.initialize` signature to allow `Window_Base` override (#8)
+- Add `id` property to `RPG_MapInfo` type definition (#7)
+- Add index signature to `Game_BattlerBase` and `TextManager` for dynamic access (#6)
+- Fix annotation tag regex to trim trailing whitespace
+- Fix class hierarchy scanner to detect multi-line constructor patterns
+- Fix annotation preview to preserve focus when opening beside editor
+
+### Changed
+
+- Remove internal docs from repository
+
 ## [1.1.3] - 2026-03-24
 
 ### Fixed

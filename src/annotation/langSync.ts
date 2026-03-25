@@ -97,7 +97,7 @@ function extractStructure(
 
   for (let i = block.startLine; i <= block.endLine; i++) {
     const lineText = document.lineAt(i).text;
-    const tagMatch = lineText.match(/^\s*\*?\s*@(\w+)\s*(.*)?$/);
+    const tagMatch = lineText.match(/^\s*\*?\s*@(\w+)\s*(.*?)?\s*$/);
     if (!tagMatch) continue;
 
     const tag = tagMatch[1];

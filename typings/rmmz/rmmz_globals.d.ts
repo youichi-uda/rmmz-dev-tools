@@ -319,6 +319,7 @@ interface RPG_TestBattler {
 }
 
 interface RPG_MapInfo {
+  id: number;
   expanded: boolean;
   name: string;
   order: number;

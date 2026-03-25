@@ -116,7 +116,7 @@ function parseAnnotation(lines: string[]): AnnotationData {
   let currentCommand: CommandInfo | undefined;
   let currentArg: ArgInfo | undefined;
 
-  const tagRegex = /^\s*\*?\s*@(\w+)\s*(.*)?$/;
+  const tagRegex = /^\s*\*?\s*@(\w+)\s*(.*?)?\s*$/;
 
   for (const rawLine of lines) {
     const m = rawLine.match(tagRegex);
@@ -518,6 +518,10 @@ function renderCommand(c: CommandInfo): string {
 
 let currentPanel: vscode.WebviewPanel | undefined;
 
+/** Track the last known text editor document so focus changes to the
+ *  webview panel don't cause us to lose the document reference. */
+let lastDocument: vscode.TextDocument | undefined;
+
 /**
  * Creates or reveals the Annotation Preview webview panel.
  * Reads the active editor and renders the parsed annotation data.
@@ -525,14 +529,17 @@ let currentPanel: vscode.WebviewPanel | undefined;
 export function showAnnotationPreview(): void {
   if (!requirePro('Annotation Preview')) return;
   const editor = vscode.window.activeTextEditor;
+  if (editor) {
+    lastDocument = editor.document;
+  }
 
   if (currentPanel) {
-    currentPanel.reveal(vscode.ViewColumn.Beside);
+    currentPanel.reveal(vscode.ViewColumn.Beside, true);
   } else {
     currentPanel = vscode.window.createWebviewPanel(
       'rmmzAnnotationPreview',
       t('preview.panelTitle'),
-      vscode.ViewColumn.Beside,
+      { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
       { enableScripts: false }
     );
 
@@ -541,7 +548,8 @@ export function showAnnotationPreview(): void {
     });
   }
 
-  updatePreview(editor?.document);
+  // Use setTimeout to ensure the panel is ready before setting content
+  setTimeout(() => updatePreview(lastDocument), 50);
 }
 
 function updatePreview(document: vscode.TextDocument | undefined): void {
@@ -600,11 +608,14 @@ export function activate(context: vscode.ExtensionContext): void {
     })
   );
 
-  // Update when switching editors
+  // Update when switching editors (ignore when focus moves to webview)
   context.subscriptions.push(
     vscode.window.onDidChangeActiveTextEditor(editor => {
       if (!currentPanel) return;
-      updatePreview(editor?.document);
+      if (editor) {
+        lastDocument = editor.document;
+        updatePreview(editor.document);
+      }
     })
   );
 }

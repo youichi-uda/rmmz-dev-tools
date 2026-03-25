@@ -278,6 +278,9 @@ declare class Sprite extends PIXI.Sprite {
 
     spriteId: number;
 
+    dy: number;
+    ry: number;
+
     bitmap: Bitmap | null;
     width: number;
     height: number;
@@ -543,7 +546,7 @@ declare class ScreenSprite extends PIXI.Container {
 
 declare class RMMZ_Window extends PIXI.Container {
     constructor();
-    initialize(): void;
+    initialize(...args: any[]): void;
 
     origin: Point;
     active: boolean;
