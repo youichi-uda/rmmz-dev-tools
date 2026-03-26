@@ -2,12 +2,14 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { spawn } from 'child_process';
-import { requirePro } from '../license/gumroad';
+import { requirePro, isProLicensed } from '../license/gumroad';
 import { t } from '../i18n';
 
 const BUILD_DEBOUNCE_MS = 500;
+const STATE_KEY = 'rmmz.tsBuildEnabled';
 
 let enabled = false;
+let extensionContext: vscode.ExtensionContext | null = null;
 let fileWatcher: vscode.FileSystemWatcher | null = null;
 let fileWatchers: vscode.FileSystemWatcher[] = [];
 let statusBarItem: vscode.StatusBarItem | null = null;
@@ -208,6 +210,7 @@ function stopWatching(): void {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
+  extensionContext = context;
   diagnosticCollection = vscode.languages.createDiagnosticCollection('rmmz-tsc');
   context.subscriptions.push(diagnosticCollection);
 
@@ -215,6 +218,7 @@ export function activate(context: vscode.ExtensionContext): void {
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 49);
   statusBarItem.command = 'rmmz.toggleTypeScriptBuild';
   context.subscriptions.push(statusBarItem);
+
   updateStatusBar('off');
 
   // Toggle command
@@ -222,6 +226,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('rmmz.toggleTypeScriptBuild', () => {
       if (!requirePro('TypeScript Auto-Build')) return;
       enabled = !enabled;
+      context.globalState.update(STATE_KEY, enabled);
       if (enabled) {
         startWatching();
         updateStatusBar('watching');
@@ -243,4 +248,19 @@ export function activate(context: vscode.ExtensionContext): void {
       if (debounceTimer) clearTimeout(debounceTimer);
     },
   });
+}
+
+/**
+ * Restores the persisted auto-build state.
+ * Must be called AFTER license initialization so isProLicensed() works.
+ */
+export function restoreState(): void {
+  if (!extensionContext) return;
+  const wasEnabled = extensionContext.globalState.get<boolean>(STATE_KEY, false);
+  if (wasEnabled && isProLicensed()) {
+    enabled = true;
+    startWatching();
+    updateStatusBar('watching');
+    runBuild();
+  }
 }

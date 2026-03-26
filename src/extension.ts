@@ -28,7 +28,7 @@ import { activate as activatePluginRegistry } from './registry/manager';
 import { activate as activateClassHierarchy } from './hierarchy/browser';
 import { activate as activateQuickActions } from './sidebar/quickActions';
 import { setupTypeScript } from './typescript/setup';
-import { activate as activateTypeScriptBuild } from './typescript/autoBuild';
+import { activate as activateTypeScriptBuild, restoreState as restoreTypeScriptBuildState } from './typescript/autoBuild';
 import { initLocale, t } from './i18n';
 import { messages as enMessages } from './messages/en';
 import { messages as jaMessages } from './messages/ja';
@@ -173,6 +173,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   // License management (Gumroad Pro license)
   await activateLicense(context);
+
+  // Restore auto-build state now that license is initialized
+  restoreTypeScriptBuildState();
 
   // Prompt IntelliSense setup on activation
   promptIntelliSenseSetup(context);

@@ -107,6 +107,25 @@ function scanFile(
 }
 
 /**
+ * Reads js/plugins.js and returns an ordered list of plugin names
+ * as they appear in the plugin manager.
+ */
+function readPluginOrder(workspaceRoot: string): string[] {
+  const pluginsJsPath = path.join(workspaceRoot, 'js', 'plugins.js');
+  try {
+    const content = fs.readFileSync(pluginsJsPath, 'utf-8');
+    // plugins.js defines: var $plugins = [ ... ];
+    // Extract the JSON array portion.
+    const match = content.match(/\$plugins\s*=\s*(\[[\s\S]*\])\s*;/);
+    if (!match) return [];
+    const arr: { name: string }[] = JSON.parse(match[1]);
+    return arr.map(p => p.name);
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Detects prototype override conflicts across plugins in a workspace.
  */
 export class ConflictDetector {
@@ -127,12 +146,18 @@ export class ConflictDetector {
    * Returns conflict results for methods overridden by multiple plugins.
    */
   async scan(workspaceFolder: vscode.WorkspaceFolder): Promise<ConflictResult[]> {
-    const pluginsDir = path.join(workspaceFolder.uri.fsPath, 'js', 'plugins');
+    const workspaceRoot = workspaceFolder.uri.fsPath;
+    const pluginsDir = path.join(workspaceRoot, 'js', 'plugins');
     if (!fs.existsSync(pluginsDir)) {
       this.results = [];
       this.diagnosticCollection.clear();
       return [];
     }
+
+    // Read plugin manager order from js/plugins.js
+    const pluginOrder = readPluginOrder(workspaceRoot);
+    const orderIndex = new Map<string, number>();
+    pluginOrder.forEach((name, i) => orderIndex.set(name, i));
 
     const files = fs.readdirSync(pluginsDir)
       .filter(f => f.endsWith('.js'))
@@ -166,6 +191,14 @@ export class ConflictDetector {
     this.results = [];
     for (const [method, overrides] of overrideMap) {
       if (overrides.length < 2) continue;
+
+      // Sort overrides by plugin manager order (plugins not in plugins.js sort last, then alphabetically)
+      overrides.sort((a, b) => {
+        const ia = orderIndex.has(a.plugin) ? orderIndex.get(a.plugin)! : Infinity;
+        const ib = orderIndex.has(b.plugin) ? orderIndex.get(b.plugin)! : Infinity;
+        if (ia !== ib) return ia - ib;
+        return a.plugin.localeCompare(b.plugin);
+      });
 
       const allAliased = overrides.every(o => o.isAlias);
       this.results.push({

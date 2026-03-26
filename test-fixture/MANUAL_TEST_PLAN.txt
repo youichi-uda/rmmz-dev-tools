@@ -11,14 +11,17 @@
   A~H: テストファイルで実施（js/plugins/ManualTest_*.js）
 ================================================================================
 
-  A. 補完               → ManualTest_Completion.js        (7項目)
-  B. バリデーション     → ManualTest_Validation.js        (9項目)
-  C. ホバー             → ManualTest_Hover.js             (15項目)
-  D. フォーマッター     → ManualTest_Formatter.js         (4項目)
-  E. カラーピッカー     → ManualTest_ColorRename.js       (4項目)
-  F. パラメータリネーム → ManualTest_ColorRename.js       (2項目)
-  G. 競合検出/CodeLens  → ManualTest_ConflictCodeLens.js  (4項目)
-  H. スニペット         → ManualTest_Snippets.js          (8項目)
+  A. 補完               → ManualTest_Completion.js          (7項目)
+  B. バリデーション     → ManualTest_Validation.js          (9項目)
+  C. ホバー             → ManualTest_Hover.js               (15項目)
+  D. フォーマッター     → ManualTest_Formatter.js           (4項目)
+  E. カラーピッカー     → ManualTest_ColorRename.js         (4項目)
+  F. パラメータリネーム → ManualTest_ColorRename.js         (2項目)
+  G. 競合検出/CodeLens  → ManualTest_ConflictCodeLens.js    (4項目)
+  H. スニペット         → ManualTest_Snippets.js            (8項目)
+  Q. 競合レポート順番   → ManualTest_ConflictOrder_A/B.js   (4項目)
+  R. 型定義修正         → ts/plugins/ManualTest_TypeDefs.ts (12項目)
+  S. 自動TSビルド永続化 → VS Code 上で手動確認              (3項目)
 
   ※ 各ファイル内にテスト手順・期待結果・PASS/FAILの記入欄あり
 
@@ -140,8 +143,80 @@
   P6  @param 後のパラメータ名           識別子色                                    [ ]
 
 ================================================================================
-  合計: 約90項目
+  Q. 競合レポートのプラグイン順番（4項目）
+================================================================================
 
-  A~H = テストファイル内で完結（手順・期待結果はファイル内コメント参照）
-  I~P = この一覧に沿って実施
+  ※ 詳細手順は ManualTest_ConflictOrder_A.js / ManualTest_ConflictOrder_B.js 内
+
+  前提条件:
+    - js/plugins.js の登録順が B → A（アルファベット逆順）であること
+    - ManualTest_ConflictCodeLens.js は plugins.js に未登録であること
+
+  #   テスト                              確認内容                              [ ]
+  --- ------------------------------------- --------------------------------------- ---
+  Q1  競合レポートの順番                   Game_Map.prototype.setup の表示が        [ ]
+                                            B → A（plugins.js 順）であること
+                                            ※ アルファベット順だと A → B になる
+  Q2  複数メソッドの一貫性                 Scene_Map.prototype.onMapLoaded も       [ ]
+                                            B → A で表示されること
+  Q3  未登録プラグインの末尾表示           Scene_Battle.prototype.start が          [ ]
+                                            SamplePlugin → ManualTest_ConflictCodeLens
+                                            の順で表示されること（未登録が末尾）
+  Q4  plugins.js が無い場合               plugins.js をリネーム → 競合レポート実行 [ ]
+                                            → アルファベット順にフォールバック
+                                            → plugins.js を戻す
+
+================================================================================
+  R. 型定義修正の確認（10項目）
+================================================================================
+
+  ※ 詳細は ts/plugins/ManualTest_TypeDefs.ts 内
+
+  前提条件:
+    - ts/typings/rmmz/ に最新の .d.ts がコピーされていること
+    - test-fixture/ をワークスペースとして開いていること
+    - TypeScript がインストールされていること（npm install typescript）
+
+  確認方法:
+    A) ターミナルで npx tsc --noEmit を実行 → エラー 0 で全 PASS
+    B) VS Code で ManualTest_TypeDefs.ts を開き赤波線がないことを確認
+
+  #    テスト                             確認内容                              [ ]
+  ---- ---------------------------------- --------------------------------------- ---
+  R1   Game_Unit 戻り値型                 aliveMembers() 等で .name() が使える    [ ]
+  R2   Game_Action subject/target型       subject().name() が使える               [ ]
+  R3   Game_Action コンストラクタ引数     Game_Actor / Game_Enemy 両方渡せる      [ ]
+  R4   BattleManager メソッド型           getNextSubject() で .name() が使える    [ ]
+  R5   initialize シグネチャ              Game_Actor(1) / Game_Enemy(1,0,0) 可    [ ]
+  R6   Window_Selectable.drawItem         異なる引数でオーバーライド可            [ ]
+  R7   Game_Temp バトラー型               touchTarget().name() が使える           [ ]
+  R8   Sprite_Battler 型                  _battler.name() が使える                [ ]
+  R9   Game_Interpreter コールバック型    iterateBattler で .name() が使える       [ ]
+  R10  後方互換性                         Game_Actor → Game_Battler に代入可能    [ ]
+  R11  StorageManager DOM衝突回避         RMMZ_StorageManager.isLocalMode() 可    [ ]
+  R12  Scene_Skill._itemWindow 型         Scene_Skill extends Scene_ItemBase 可   [ ]
+
+================================================================================
+  S. 自動TSビルド設定の永続化（Issue #15）
+================================================================================
+
+  前提条件:
+    - Pro ライセンスが有効であること
+    - ワークスペースに tsconfig.json があること
+
+  #   テスト                               確認内容                              [ ]
+  --- -------------------------------------- --------------------------------------- ---
+  S1  ON → 再起動 → ON 維持              自動TSビルドを ON にする → VS Code を   [ ]
+                                            再起動 → ステータスバーが watching の
+                                            ままであること（OFF に戻らない）
+  S2  OFF → 再起動 → OFF 維持            自動TSビルドを OFF にする → VS Code を  [ ]
+                                            再起動 → ステータスバーが OFF のまま
+  S3  ON → OFF → 再起動 → OFF            ON にした後 OFF に切替 → 再起動        [ ]
+                                            → OFF が保持されていること
+
+================================================================================
+  合計: 約109項目
+
+  A~H, Q~R = テストファイル内で完結（手順・期待結果はファイル内コメント参照）
+  I~P, S = この一覧に沿って実施
 ================================================================================

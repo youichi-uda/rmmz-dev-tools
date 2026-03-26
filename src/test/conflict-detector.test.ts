@@ -282,3 +282,52 @@ Foo.prototype.bar = function() { _old.call(this); };`,
     expect(results).toHaveLength(0);
   });
 });
+
+describe('plugin order sorting', () => {
+  function sortOverridesByPluginOrder(
+    overrides: { plugin: string }[],
+    pluginOrder: string[]
+  ) {
+    const orderIndex = new Map<string, number>();
+    pluginOrder.forEach((name, i) => orderIndex.set(name, i));
+    return [...overrides].sort((a, b) => {
+      const ia = orderIndex.has(a.plugin) ? orderIndex.get(a.plugin)! : Infinity;
+      const ib = orderIndex.has(b.plugin) ? orderIndex.get(b.plugin)! : Infinity;
+      if (ia !== ib) return ia - ib;
+      return a.plugin.localeCompare(b.plugin);
+    });
+  }
+
+  it('sorts overrides by plugin manager order', () => {
+    const pluginOrder = ['PluginC', 'PluginA', 'PluginB'];
+    const overrides = [
+      { plugin: 'PluginA' },
+      { plugin: 'PluginB' },
+      { plugin: 'PluginC' },
+    ];
+    const sorted = sortOverridesByPluginOrder(overrides, pluginOrder);
+    expect(sorted.map(o => o.plugin)).toEqual(['PluginC', 'PluginA', 'PluginB']);
+  });
+
+  it('puts unknown plugins last, sorted alphabetically', () => {
+    const pluginOrder = ['PluginB', 'PluginA'];
+    const overrides = [
+      { plugin: 'PluginZ' },
+      { plugin: 'PluginA' },
+      { plugin: 'PluginB' },
+      { plugin: 'PluginX' },
+    ];
+    const sorted = sortOverridesByPluginOrder(overrides, pluginOrder);
+    expect(sorted.map(o => o.plugin)).toEqual(['PluginB', 'PluginA', 'PluginX', 'PluginZ']);
+  });
+
+  it('falls back to alphabetical when no plugin order is available', () => {
+    const overrides = [
+      { plugin: 'Charlie' },
+      { plugin: 'Alpha' },
+      { plugin: 'Bravo' },
+    ];
+    const sorted = sortOverridesByPluginOrder(overrides, []);
+    expect(sorted.map(o => o.plugin)).toEqual(['Alpha', 'Bravo', 'Charlie']);
+  });
+});
