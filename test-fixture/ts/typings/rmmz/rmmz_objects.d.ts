@@ -45,6 +45,26 @@ declare class Game_Temp {
 declare class Game_System {
     constructor();
 
+    _saveEnabled: boolean;
+    _menuEnabled: boolean;
+    _encounterEnabled: boolean;
+    _formationEnabled: boolean;
+    _battleCount: number;
+    _winCount: number;
+    _escapeCount: number;
+    _saveCount: number;
+    _versionId: number;
+    _savefileId: number;
+    _framesOnSave: number;
+    _bgmOnSave: RPG_AudioFile | null;
+    _bgsOnSave: RPG_AudioFile | null;
+    _windowTone: number[];
+    _battleBgm: RPG_AudioFile | null;
+    _victoryMe: RPG_AudioFile | null;
+    _defeatMe: RPG_AudioFile | null;
+    _savedBgm: RPG_AudioFile | null;
+    _walkingBgm: RPG_AudioFile | null;
+
     initialize(): void;
     isJapanese(): boolean;
     isChinese(): boolean;
@@ -121,6 +141,26 @@ declare class Game_Timer {
 
 declare class Game_Message {
     constructor();
+
+    _texts: string[];
+    _choices: string[] | null;
+    _speakerName: string;
+    _faceName: string;
+    _faceIndex: number;
+    _background: number;
+    _positionType: number;
+    _choiceDefaultType: number;
+    _choiceCancelType: number;
+    _choiceBackground: number;
+    _choicePositionType: number;
+    _numInputVariableId: number;
+    _numInputMaxDigits: number;
+    _itemChoiceVariableId: number;
+    _itemChoiceItypeId: number;
+    _scrollMode: boolean;
+    _scrollSpeed: number;
+    _scrollNoFast: boolean;
+    _choiceCallback: ((n: number) => void) | null;
 
     initialize(): void;
     clear(): void;

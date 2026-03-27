@@ -31,7 +31,7 @@ function buildTsConfig(): TsConfigResult {
       sourceMap: true,
       declaration: false,
       skipLibCheck: true,
-      lib: ['ES2020', 'DOM'],
+      lib: ['ES2020'],
     },
     include: [
       'ts/plugins/**/*.ts',
@@ -99,9 +99,9 @@ describe('TypeScript Setup - tsconfig generation', () => {
     expect(config.compilerOptions.strict).toBe(true);
   });
 
-  it('should include DOM lib for browser APIs used by RMMZ', () => {
+  it('should NOT include DOM lib to avoid Window/StorageManager conflicts', () => {
     const config = buildTsConfig();
-    expect(config.compilerOptions.lib).toContain('DOM');
+    expect(config.compilerOptions.lib).not.toContain('DOM');
     expect(config.compilerOptions.lib).toContain('ES2020');
   });
 

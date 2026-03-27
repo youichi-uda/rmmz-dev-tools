@@ -65,7 +65,7 @@ export async function setupTypeScript(
       sourceMap: true,
       declaration: false,
       skipLibCheck: true,
-      lib: ['ES2020', 'DOM'],
+      lib: ['ES2020'],
     },
     include: [
       'ts/plugins/**/*.ts',

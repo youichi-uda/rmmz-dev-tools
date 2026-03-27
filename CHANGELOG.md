@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.6] - 2026-03-27
+
+### Fixed
+
+- Revert `RMMZ_Window` → `Window`, `RMMZ_StorageManager` → `StorageManager` to match runtime names and prevent `ReferenceError` (#17)
+- Remove `"DOM"` from generated tsconfig `lib` to avoid irreconcilable name conflicts with DOM globals (#17)
+- Add `dom-rmmz.d.ts` providing essential DOM type declarations without conflicting `Window`/`StorageManager` globals (#17)
+- Add `Game_Message` properties: `_texts`, `_choices`, `_speakerName`, `_faceName`, `_faceIndex`, `_background`, `_positionType`, `_choiceDefaultType`, `_choiceCancelType`, `_choiceBackground`, `_choicePositionType`, `_numInputVariableId`, `_numInputMaxDigits`, `_itemChoiceVariableId`, `_itemChoiceItypeId`, `_scrollMode`, `_scrollSpeed`, `_scrollNoFast`, `_choiceCallback` (#16)
+- Add `Game_System` properties: `_saveEnabled`, `_menuEnabled`, `_encounterEnabled`, `_formationEnabled`, `_battleCount`, `_winCount`, `_escapeCount`, `_saveCount`, `_versionId`, `_savefileId`, `_framesOnSave`, `_bgmOnSave`, `_bgsOnSave`, `_windowTone`, `_battleBgm`, `_victoryMe`, `_defeatMe`, `_savedBgm`, `_walkingBgm` (#16)
+
+## [1.1.5] - 2026-03-26
+
+### Fixed
+
+- Comprehensive type fixes, conflict report ordering, auto-build persistence (#11–#15)
+
 ## [1.1.4] - 2026-03-25
 
 ### Fixed

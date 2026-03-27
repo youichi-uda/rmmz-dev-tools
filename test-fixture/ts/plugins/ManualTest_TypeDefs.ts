@@ -245,27 +245,27 @@ function test10_backwardCompatibility(): void {
   console.log(battler1, battler2);
 }
 
-// === テスト 11: StorageManager が DOM と衝突しないこと (Issue #13) ========
-// 期待結果: RMMZ_StorageManager のメソッドが使えること
-//           DOM の StorageManager インターフェースと混同されないこと
-//           ※ DOM と名前衝突するため、TS コードでは RMMZ_StorageManager を使う
+// === テスト 11: StorageManager がランタイム名で使えること (Issue #13, #17) ==
+// 期待結果: StorageManager のメソッドが使えること
+//           DOM lib を除外したため名前衝突が発生しないこと
+//           コンパイル後の JS でも StorageManager がそのまま使われること
 // 結果: [ PASS / FAIL ]
 // =========================================================================
 function test11_storageManagerNoDomConflict(): void {
-  // RMMZ_StorageManager の直接利用（DOM 衝突を回避）
-  const isLocal: boolean = RMMZ_StorageManager.isLocalMode();
+  // StorageManager の直接利用（ランタイム名そのまま）
+  const isLocal: boolean = StorageManager.isLocalMode();
   console.log(isLocal);
 
   // ファイル存在チェック
-  const exists: boolean = RMMZ_StorageManager.exists("file1");
+  const exists: boolean = StorageManager.exists("file1");
   console.log(exists);
 
   // 非同期メソッド
-  const promise: Promise<void> = RMMZ_StorageManager.saveObject("save1", {});
+  const promise: Promise<void> = StorageManager.saveObject("save1", {});
   console.log(promise);
 
   // fs系メソッド
-  const dir: string = RMMZ_StorageManager.fileDirectoryPath();
+  const dir: string = StorageManager.fileDirectoryPath();
   console.log(dir);
 }
 
@@ -290,6 +290,92 @@ function test12_sceneSkillItemWindow(): void {
   const base: Scene_ItemBase = scene;
   const baseWindow: Window_Selectable = base._itemWindow;
   console.log(baseWindow);
+}
+
+// === テスト 13: Game_Message のプロパティ型 (Issue #16) ====================
+// 期待結果: _texts, _choices, _choiceCallback 等のプロパティが使えること
+// 結果: [ PASS / FAIL ]
+// =========================================================================
+function test13_gameMessageProperties(): void {
+  const msg = new Game_Message();
+
+  const texts: string[] = msg._texts;
+  const choices: string[] | null = msg._choices;
+  const speaker: string = msg._speakerName;
+  const faceName: string = msg._faceName;
+  const faceIndex: number = msg._faceIndex;
+  const bg: number = msg._background;
+  const pos: number = msg._positionType;
+  const choiceDefault: number = msg._choiceDefaultType;
+  const choiceCancel: number = msg._choiceCancelType;
+  const choiceBg: number = msg._choiceBackground;
+  const choicePos: number = msg._choicePositionType;
+  const numInputVar: number = msg._numInputVariableId;
+  const numInputMax: number = msg._numInputMaxDigits;
+  const itemVar: number = msg._itemChoiceVariableId;
+  const itemType: number = msg._itemChoiceItypeId;
+  const scrollMode: boolean = msg._scrollMode;
+  const scrollSpeed: number = msg._scrollSpeed;
+  const scrollNoFast: boolean = msg._scrollNoFast;
+  const callback: ((n: number) => void) | null = msg._choiceCallback;
+
+  console.log(texts, choices, speaker, faceName, faceIndex, bg, pos);
+  console.log(choiceDefault, choiceCancel, choiceBg, choicePos);
+  console.log(numInputVar, numInputMax, itemVar, itemType);
+  console.log(scrollMode, scrollSpeed, scrollNoFast, callback);
+}
+
+// === テスト 14: Game_System のプロパティ型 (Issue #16) =====================
+// 期待結果: _saveEnabled, _battleBgm, _windowTone 等のプロパティが使えること
+// 結果: [ PASS / FAIL ]
+// =========================================================================
+function test14_gameSystemProperties(): void {
+  const sys = new Game_System();
+
+  const saveEnabled: boolean = sys._saveEnabled;
+  const menuEnabled: boolean = sys._menuEnabled;
+  const encounterEnabled: boolean = sys._encounterEnabled;
+  const formationEnabled: boolean = sys._formationEnabled;
+  const battleCount: number = sys._battleCount;
+  const winCount: number = sys._winCount;
+  const escapeCount: number = sys._escapeCount;
+  const saveCount: number = sys._saveCount;
+  const versionId: number = sys._versionId;
+  const savefileId: number = sys._savefileId;
+  const framesOnSave: number = sys._framesOnSave;
+  const bgmOnSave: RPG_AudioFile | null = sys._bgmOnSave;
+  const bgsOnSave: RPG_AudioFile | null = sys._bgsOnSave;
+  const windowTone: number[] = sys._windowTone;
+  const battleBgm: RPG_AudioFile | null = sys._battleBgm;
+  const victoryMe: RPG_AudioFile | null = sys._victoryMe;
+  const defeatMe: RPG_AudioFile | null = sys._defeatMe;
+  const savedBgm: RPG_AudioFile | null = sys._savedBgm;
+  const walkingBgm: RPG_AudioFile | null = sys._walkingBgm;
+
+  console.log(saveEnabled, menuEnabled, encounterEnabled, formationEnabled);
+  console.log(battleCount, winCount, escapeCount, saveCount);
+  console.log(versionId, savefileId, framesOnSave);
+  console.log(bgmOnSave, bgsOnSave, windowTone);
+  console.log(battleBgm, victoryMe, defeatMe, savedBgm, walkingBgm);
+}
+
+// === テスト 15: Window クラスがランタイム名で使えること (Issue #17) =========
+// 期待結果: Window クラスを直接参照でき、extends できること
+//           コンパイル後の JS でも Window がそのまま使われること
+// 結果: [ PASS / FAIL ]
+// =========================================================================
+function test15_windowClassDirectName(): void {
+  // Window_Base は Window を継承しているので、Window 型として扱える
+  const rect = new Rectangle(0, 0, 200, 100);
+  const base = new Window_Base(rect);
+  const win: Window = base; // Window_Base は Window のサブクラス
+  console.log(win.isOpen());
+
+  // Window のプロパティにアクセス
+  const openness: number = win.openness;
+  const padding: number = win.padding;
+  const active: boolean = win.active;
+  console.log(openness, padding, active);
 }
 
 // =========================================================================

@@ -130,11 +130,9 @@ declare namespace ConfigManager {
 // StorageManager
 //
 // The static class that manages storage for saving game data.
-// Named RMMZ_StorageManager in type definitions to avoid collision with the
-// DOM StorageManager interface. At runtime the object is called "StorageManager".
 // ---------------------------------------------------------------------------
 
-declare namespace RMMZ_StorageManager {
+declare namespace StorageManager {
   let _forageKeys: string[];
   let _forageKeysUpdated: boolean;
 
@@ -169,12 +167,6 @@ declare namespace RMMZ_StorageManager {
   function forageKey(saveName: string): string;
   function forageTestKey(): string;
 }
-
-// Runtime compatibility: RMMZ uses the global name "StorageManager".
-// Unlike RMMZ_Window, we cannot provide a `declare const StorageManager` alias
-// because the DOM lib declares `var StorageManager` as a Web Storage API class,
-// causing an irreconcilable type conflict. Use RMMZ_StorageManager directly
-// in TypeScript code; at runtime, the global "StorageManager" is the RMMZ object.
 
 // ---------------------------------------------------------------------------
 // FontManager

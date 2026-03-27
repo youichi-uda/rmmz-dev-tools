@@ -540,11 +540,9 @@ declare class ScreenSprite extends PIXI.Container {
 // ---------------------------------------------------------------------------
 // Window
 // The RMMZ Window class for in-game UI windows.
-// Named RMMZ_Window in type definitions to avoid collision with the DOM
-// global Window interface. At runtime the class is called "Window".
 // ---------------------------------------------------------------------------
 
-declare class RMMZ_Window extends PIXI.Container {
+declare class Window extends PIXI.Container {
     constructor();
     initialize(...args: any[]): void;
 
@@ -635,9 +633,6 @@ declare class RMMZ_Window extends PIXI.Container {
     _updatePauseSign(): void;
     _updateFilterArea(): void;
 }
-
-// Runtime compatibility: RMMZ assigns this class to the global "Window" name
-declare const Window: typeof RMMZ_Window;
 
 // ---------------------------------------------------------------------------
 // WindowLayer

@@ -193,8 +193,11 @@
   R8   Sprite_Battler 型                  _battler.name() が使える                [ ]
   R9   Game_Interpreter コールバック型    iterateBattler で .name() が使える       [ ]
   R10  後方互換性                         Game_Actor → Game_Battler に代入可能    [ ]
-  R11  StorageManager DOM衝突回避         RMMZ_StorageManager.isLocalMode() 可    [ ]
+  R11  StorageManager ランタイム名        StorageManager.isLocalMode() 可         [ ]
   R12  Scene_Skill._itemWindow 型         Scene_Skill extends Scene_ItemBase 可   [ ]
+  R13  Game_Message プロパティ型           _texts, _choices 等が使える             [ ]
+  R14  Game_System プロパティ型            _saveEnabled, _battleBgm 等が使える     [ ]
+  R15  Window クラスランタイム名           Window 型を直接参照できる               [ ]
 
 ================================================================================
   S. 自動TSビルド設定の永続化（Issue #15）
